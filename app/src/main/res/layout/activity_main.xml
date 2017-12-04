@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
 
     <Button
         android:id="@+id/start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Memory Service"
+        android:text="Start Service"
         android:layout_centerHorizontal="true"
         android:background="#006400"
         android:textColor="#fff"
@@ -23,11 +24,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/start_btn"
-        android:text="Stop Memory Service"
+        android:text="Stop Service"
         android:layout_centerHorizontal="true"
         android:background="#8B0000"
         android:textColor="#fff"
         android:padding="5dp"
         android:layout_marginTop="3dp"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_sigin_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/stop_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        >
+    </com.google.android.gms.common.SignInButton>
+
+    <ImageView
+        android:id="@+id/user_profile_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/stop_btn"
+        android:layout_marginTop="50dp"/>
 
 </RelativeLayout>

@@ -3,6 +3,7 @@ package kobbigal.monitorservice;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +13,13 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.RemoteViews;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -32,14 +36,20 @@ public class MonitorService extends Service {
     NotificationManager notificationManager;
     Notification.Builder builder;
     Notification notification;
-//    SensorManager sensorManager;
-//    Sensor temperature;
     TelephonyManager telephonyManager;
     mPhoneStateListener mPhoneStateListener;
-    int mSignalStrength;
+    TextView ram;
+    TextView gsm;
+    TextView temp;
+    TextView bat;
+    RemoteViews contentView ;
+    Timer timer;
 
     @Override
     public void onCreate() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -47,16 +57,18 @@ public class MonitorService extends Service {
         mPhoneStateListener = new mPhoneStateListener();
         telephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
+        contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+
         builder = new Notification.Builder(this);
-        builder.setSmallIcon(R.drawable.ic_memory_white_24dp)
-                .setContentTitle("System Monitor");
+        builder.setSmallIcon(R.drawable.ic_launcher_background).setContent(contentView);
+//                .setContentTitle("Monitoring Service");
 
         notification = builder.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notificationManager.notify(NOTIF_ID, notification);
         startForeground(NOTIF_ID, notification);
-
-//        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-//        sensorManager.registerListener(MonitorService.this, temperature, 10000000);
-//        temperature = sensorManager.getDefaultSensor(Sensor.TYPE_TEMPERATURE);
 
         super.onCreate();
     }
@@ -65,21 +77,8 @@ public class MonitorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Log.i("onstartcommand", "y");
-//
-//        sensorManager.registerListener(new SensorEventListener() {
-//            @Override
-//            public void onSensorChanged(SensorEvent event) {
-//
-//
-//
-//            }
-//
-//            @Override
-//            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-//
-//            }
-//        });
-        Timer timer = new Timer();
+
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -96,7 +95,9 @@ public class MonitorService extends Service {
                 Log.i("available", String.valueOf(availableMegs) + "MB");
                 Log.i("percent", String.valueOf(percentAvail) + "%");
 
+                contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
+                /*
                 String messageBody =
                         "Free RAM: " + (int) availableMegs + "MB \\ " + (int) percentAvail + " %\n"
                         + "GSM Signal: " + mPhoneStateListener.getRssi() + " rssi \\ "
@@ -106,6 +107,7 @@ public class MonitorService extends Service {
                 builder
                         .setContentText(messageBody)
                         .setStyle(new Notification.BigTextStyle().bigText(messageBody));
+                */
                 notificationManager.notify(NOTIF_ID, builder.build());
 
             }
@@ -122,6 +124,8 @@ public class MonitorService extends Service {
 
     @Override
     public void onDestroy() {
+
+        timer.cancel();
         super.onDestroy();
     }
 
@@ -147,7 +151,7 @@ class mPhoneStateListener extends PhoneStateListener {
         dbm = mSignalStrengthDbm;
     }
 
-    public int getDbm() {
+    int getDbm() {
         return dbm;
     }
 
@@ -177,28 +181,4 @@ class mPhoneStateListener extends PhoneStateListener {
 
         return quality;
     }
-    /*
-     @Override
-    public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-        super.onSignalStrengthsChanged(signalStrength);
-
-        signalSupport = signalStrength.getGsmSignalStrength();
-        Log.d(getClass().getCanonicalName(), "------ gsm signal --> " + rssi);
-
-        if (rssi > 30) {
-            Log.d(getClass().getCanonicalName(), "Signal GSM : Good");
-
-
-        } else if (rssi > 20 && rssi < 30) {
-            Log.d(getClass().getCanonicalName(), "Signal GSM : Avarage");
-
-
-        } else if (rssi < 20 && rssi > 3) {
-            Log.d(getClass().getCanonicalName(), "Signal GSM : Week");
-
-
-        } else if (rssi < 3) {
-            Log.d(getClass().getCanonicalName(), "Signal GSM : Very week");
-        }
-     */
 }

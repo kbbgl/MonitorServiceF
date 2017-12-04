@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#696969">
+
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="@font/audiowide"
+        android:text="Monitoring Service"
+        android:textSize="15sp"
+        android:textColor="#fff"
+        android:alpha="0.2"/>
+
+    <GridLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:layout_marginTop="15dp"
+        android:rowCount="3"
+        android:columnCount="4">
+
+        <TextView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:id="@+id/ram"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:id="@+id/gsm"
+            android:text="GSM"
+            android:layout_margin="5dp"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:id="@+id/temp"
+            android:text="TEMP"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:id="@+id/bat"
+            android:text="bat"
+            android:textAllCaps="true"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:id="@+id/ram_value"
+            android:text="485MB"
+            android:textAllCaps="true"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:id="@+id/gsm_value"
+            android:text="13"
+            android:textAllCaps="true"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:id="@+id/temp_value"
+            android:text="40\u00B0"
+            android:textAllCaps="true"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:id="@+id/bat_value"
+            android:text="40%"
+            android:textAllCaps="true"
+            android:layout_margin="5dp"
+            android:fontFamily="@font/audiowide"
+            android:textColor="#fff"
+            android:textSize="12sp"/>
+
+    </GridLayout>
+
+</RelativeLayout>
