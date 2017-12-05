@@ -61,8 +61,8 @@ public class MonitorService extends Service {
 
         builder = new Notification.Builder(this);
         builder.setSmallIcon(R.drawable.ic_memory_white_24dp)
-                .setContent(contentView);
-//                .setContentTitle("Monitoring Service");
+//                .setContent(contentView);
+                .setContentTitle("Monitoring Service");
 
         notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
@@ -95,22 +95,22 @@ public class MonitorService extends Service {
                 Log.i("available", String.valueOf(availableMegs) + "MB");
                 Log.i("percent", String.valueOf(percentAvail) + "%");
 
-                contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
+//                contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
-//                String messageBody =
-//                        "Free RAM: " + (int) availableMegs + "MB \\ " + (int) percentAvail + " %\n"
-//                        + "GSM Signal: " + mPhoneStateListener.getRssi() + " rssi \\ "
-//                        + mPhoneStateListener.getDbm() + " dbm \\ "
-//                        + mPhoneStateListener.getQuality();
-//
-//                builder
-//                        .setContentText(messageBody)
-//                        .setStyle(new Notification.BigTextStyle().bigText(messageBody));
+                String messageBody =
+                        "Free RAM: " + (int) availableMegs + "MB \\ " + (int) percentAvail + " %\n"
+                        + "GSM Signal: " + mPhoneStateListener.getRssi() + " rssi \\ "
+                        + mPhoneStateListener.getDbm() + " dbm \\ "
+                        + mPhoneStateListener.getQuality();
+
+                builder
+                        .setContentText(messageBody)
+                        .setStyle(new Notification.BigTextStyle().bigText(messageBody));
 
                 notificationManager.notify(NOTIF_ID, builder.build());
 
             }
-        }, 0, 10000);
+        }, 0, 500);
 
         return super.onStartCommand(intent, flags, startId);
     }

@@ -3,19 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
     android:layout_gravity="center"
     android:gravity="center_horizontal"
     android:orientation="horizontal"
     >
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:fontFamily="@font/audiowide"
         android:text="Monitor Service"
-        android:textSize="25sp">
+        android:textSize="25sp"
+        android:textColor="#3a7bd5">
     </TextView>
 
 </RelativeLayout>
