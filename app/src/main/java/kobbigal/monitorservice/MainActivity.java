@@ -7,10 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
 implements GoogleApiClient.ConnectionCallbacks,
 GoogleApiClient.OnConnectionFailedListener,
@@ -33,18 +36,23 @@ View.OnClickListener{
     private boolean mShouldResolve = false;
     private GoogleApiClient mGoogleApiClient;
     SignInButton googleSignInBtn;
-    ImageView profilePicIv;
+    CircleImageView profilePicIv;
+    TextView username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
         setContentView(R.layout.activity_main);
+        this.getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_custom_view);
 
         final Intent intent = new Intent(this, MonitorService.class);
         final Intent barchart = new Intent(this, BarChartActivity.class);
+        final Intent monitorServiceStartIntent = new Intent(this, MonitorService.class);
         findViewById(R.id.google_sigin_btn).setOnClickListener(this);
         profilePicIv = findViewById(R.id.user_profile_image);
         googleSignInBtn = findViewById(R.id.google_sigin_btn);
+        username = findViewById(R.id.user_profile_name);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -59,10 +67,20 @@ View.OnClickListener{
             @Override
             public void onClick(View v) {
 
-                //startService(intent);
-                startActivity(barchart);
+                startService(monitorServiceStartIntent);
 
-                Log.i("startservice", "y");
+                Log.i("service", "started");
+
+            }
+        });
+
+        Button seeData = findViewById(R.id.see_graphs);
+        seeData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(barchart);
+                Log.i("seedata", "launched");
 
             }
         });
@@ -73,6 +91,7 @@ View.OnClickListener{
             public void onClick(View v) {
 
                 stopService(intent);
+                Log.i("service", "stopped");
 
             }
         });
@@ -98,11 +117,12 @@ View.OnClickListener{
         mShouldResolve = false;
         String info = "";
         String personPhoto = "";
+        String personName = "";
 
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null){
 
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            String personName = currentPerson.getDisplayName();
+            personName = currentPerson.getDisplayName();
             personPhoto = currentPerson.getImage().getUrl();
             String personGooglePlusProfile  = currentPerson.getUrl();
             String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -112,9 +132,11 @@ View.OnClickListener{
         }
 
         Toast.makeText(this, "Signed in as:\n" + info, Toast.LENGTH_SHORT).show();
+        username.setText(personName);
+
 
         if (personPhoto != null) {
-            Picasso.with(this).load(personPhoto).resize(400, 400).into(profilePicIv);
+            Picasso.with(this).load(personPhoto).resize(72, 72).into(profilePicIv);
         }
 
         googleSignInBtn.animate().alpha(0f).setDuration(2000);

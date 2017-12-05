@@ -60,13 +60,13 @@ public class MonitorService extends Service {
         contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
         builder = new Notification.Builder(this);
-        builder.setSmallIcon(R.drawable.ic_launcher_background).setContent(contentView);
+        builder.setSmallIcon(R.drawable.ic_memory_white_24dp)
+                .setContent(contentView);
 //                .setContentTitle("Monitoring Service");
 
         notification = builder.build();
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
-        notification.defaults |= Notification.DEFAULT_SOUND;
         notificationManager.notify(NOTIF_ID, notification);
         startForeground(NOTIF_ID, notification);
 
@@ -97,17 +97,16 @@ public class MonitorService extends Service {
 
                 contentView = new RemoteViews(getPackageName(), R.layout.notification_layout);
 
-                /*
-                String messageBody =
-                        "Free RAM: " + (int) availableMegs + "MB \\ " + (int) percentAvail + " %\n"
-                        + "GSM Signal: " + mPhoneStateListener.getRssi() + " rssi \\ "
-                        + mPhoneStateListener.getDbm() + " dbm \\ "
-                        + mPhoneStateListener.getQuality();
+//                String messageBody =
+//                        "Free RAM: " + (int) availableMegs + "MB \\ " + (int) percentAvail + " %\n"
+//                        + "GSM Signal: " + mPhoneStateListener.getRssi() + " rssi \\ "
+//                        + mPhoneStateListener.getDbm() + " dbm \\ "
+//                        + mPhoneStateListener.getQuality();
+//
+//                builder
+//                        .setContentText(messageBody)
+//                        .setStyle(new Notification.BigTextStyle().bigText(messageBody));
 
-                builder
-                        .setContentText(messageBody)
-                        .setStyle(new Notification.BigTextStyle().bigText(messageBody));
-                */
                 notificationManager.notify(NOTIF_ID, builder.build());
 
             }

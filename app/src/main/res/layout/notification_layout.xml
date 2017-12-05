@@ -34,6 +34,8 @@
             android:layout_row="0"
             android:layout_column="0"
             android:id="@+id/ram"
+            android:text="RAM"
+            android:fontFamily="@font/audiowide"
             android:layout_margin="5dp"
             android:textColor="#fff"
             android:textSize="12sp"/>
@@ -44,6 +46,7 @@
             android:layout_column="1"
             android:id="@+id/gsm"
             android:text="GSM"
+            android:fontFamily="@font/audiowide"
             android:layout_margin="5dp"
             android:textColor="#fff"
             android:textSize="12sp"/>
